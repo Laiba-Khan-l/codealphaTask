@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Translation Tool</title>
+</head>
+<body>
+<h2>Language Translation Tool</h2>
+
+<textarea id="text" placeholder="Enter text"></textarea>
+
+<br><br>
+
+Source Language:
+<select id="source">
+    <option value="ko">Korean</option>
+    <option value="zh">Chinese</option>
+    <option value="ja">Japanese</option>
+</select>
+
+Target Language:
+<select id="target">
+    <option value="zh">Chinese</option>
+    <option value="ja">Japanese</option>
+    <option value="ko">Korean</option>
+</select>
+
+<br><br>
+
+<button onclick="translateText()">Translate</button>
+
+<h3>Translated Text:</h3>
+<p id="result"></p>
+<button onclick="copyText()">Copy</button>
+
+<script>
+function translateText(){
+    let text = document.getElementById("text").value;
+    let source = document.getElementById("source").value;
+    let target = document.getElementById("target").value;
+
+    fetch(`https://api.mymemory.translated.net/get?q=${text}&langpair=${source}|${target}`)
+    .then(response => response.json())
+    .then(data => {
+        document.getElementById("result").innerText = data.responseData.translatedText;
+    });
+}
+function copyText(){
+    let text = document.getElementById("result").innerText;
+    navigator.clipboard.writeText(text);
+}
+</script>
+</body>
+</html>
